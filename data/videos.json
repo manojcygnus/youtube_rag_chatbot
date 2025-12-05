@@ -1,0 +1,26 @@
+{
+  "videos": [
+    {
+      "video_id": "ZgwHaI2C-9s",
+      "video_url": "https://youtu.be/ZgwHaI2C-9s?si=1kCwLeKA6HX0bcXx",
+      "video_title": "27M model",
+      "num_chunks": 19,
+      "transcript_length": 14268,
+      "processed_at": "2025-12-04T15:54:53.563531",
+      "last_updated": "2025-12-04T15:54:53.563632"
+    },
+    {
+      "video_id": "nVQo76iEoms",
+      "video_url": "https://youtu.be/nVQo76iEoms?si=6txv5ufywlDNY-G4",
+      "video_title": "crispr bioeng",
+      "num_chunks": 17,
+      "transcript_length": 13644,
+      "processed_at": "2025-12-04T16:52:24.247296",
+      "last_updated": "2025-12-04T16:52:24.247302"
+    }
+  ],
+  "metadata": {
+    "last_updated": "2025-12-04T16:52:24.247305",
+    "total_videos": 2
+  }
+}

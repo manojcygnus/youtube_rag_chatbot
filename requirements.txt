@@ -1,0 +1,26 @@
+# YouTube transcript extraction
+yt-dlp==2025.10.14
+
+# Environment variable management
+python-dotenv==1.2.1
+
+# LangChain - Framework for building LLM applications and RAG pipelines
+langchain==0.3.27
+
+# LangChain Community - Additional integrations and tools for LangChain
+langchain-community==0.3.31
+
+# ChromaDB - Open-source vector database for storing and retrieving embeddings
+chromadb==1.3.5
+
+# Anthropic - Official Python client for Claude AI API
+anthropic==0.75.0
+
+# Google Generative AI - Official Python client for Google Gemini API (Free tier available)
+google-generativeai==0.8.3
+
+# Voyage AI - High-quality embedding models for semantic search
+voyageai==0.3.5
+
+# Streamlit - Web application framework for creating interactive UI
+streamlit==1.31.1
