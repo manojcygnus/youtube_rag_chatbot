@@ -42,7 +42,9 @@ def _get_secret(key: str) -> str:
     # Try Streamlit secrets first (for cloud deployment)
     if HAS_STREAMLIT:
         try:
-            return st.secrets.get(key)
+            # Access secrets using dictionary notation
+            if key in st.secrets:
+                return st.secrets[key]
         except (AttributeError, FileNotFoundError, KeyError):
             pass
 
