@@ -21,6 +21,34 @@ PROJECT_ROOT = Path(__file__).parent.parent
 # The .env file should be in the project root directory
 load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 
+# Try to import streamlit for cloud deployment
+try:
+    import streamlit as st
+    HAS_STREAMLIT = True
+except ImportError:
+    HAS_STREAMLIT = False
+
+
+def _get_secret(key: str) -> str:
+    """
+    Get a secret from Streamlit secrets (cloud) or environment variables (local).
+
+    Args:
+        key: The secret key to retrieve
+
+    Returns:
+        The secret value or None if not found
+    """
+    # Try Streamlit secrets first (for cloud deployment)
+    if HAS_STREAMLIT:
+        try:
+            return st.secrets.get(key)
+        except (AttributeError, FileNotFoundError, KeyError):
+            pass
+
+    # Fall back to environment variables (for local development)
+    return os.getenv(key)
+
 
 # =============================================================================
 # Required API Keys
@@ -28,7 +56,7 @@ load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 
 def get_gemini_api_key() -> str:
     """
-    Get the Google Gemini API key from environment variables.
+    Get the Google Gemini API key from Streamlit secrets or environment variables.
 
     Returns:
         str: The Gemini API key
@@ -36,11 +64,11 @@ def get_gemini_api_key() -> str:
     Raises:
         ValueError: If the API key is not set
     """
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = _get_secret("GEMINI_API_KEY")
     if not api_key:
         raise ValueError(
-            "GEMINI_API_KEY not found in environment variables. "
-            "Please set it in your .env file. "
+            "GEMINI_API_KEY not found. "
+            "Please set it in Streamlit secrets (cloud) or your .env file (local). "
             "See .env.example for instructions on how to obtain this key."
         )
     return api_key
@@ -48,7 +76,7 @@ def get_gemini_api_key() -> str:
 
 def get_anthropic_api_key() -> str:
     """
-    Get the Anthropic API key from environment variables.
+    Get the Anthropic API key from Streamlit secrets or environment variables.
 
     Returns:
         str: The Anthropic API key
@@ -56,11 +84,11 @@ def get_anthropic_api_key() -> str:
     Raises:
         ValueError: If the API key is not set
     """
-    api_key = os.getenv("ANTHROPIC_API_KEY")
+    api_key = _get_secret("ANTHROPIC_API_KEY")
     if not api_key:
         raise ValueError(
-            "ANTHROPIC_API_KEY not found in environment variables. "
-            "Please set it in your .env file. "
+            "ANTHROPIC_API_KEY not found. "
+            "Please set it in Streamlit secrets (cloud) or your .env file (local). "
             "See .env.example for instructions on how to obtain this key."
         )
     return api_key
@@ -68,7 +96,7 @@ def get_anthropic_api_key() -> str:
 
 def get_voyage_api_key() -> str:
     """
-    Get the Voyage AI API key from environment variables.
+    Get the Voyage AI API key from Streamlit secrets or environment variables.
 
     Returns:
         str: The Voyage AI API key
@@ -76,11 +104,11 @@ def get_voyage_api_key() -> str:
     Raises:
         ValueError: If the API key is not set
     """
-    api_key = os.getenv("VOYAGE_API_KEY")
+    api_key = _get_secret("VOYAGE_API_KEY")
     if not api_key:
         raise ValueError(
-            "VOYAGE_API_KEY not found in environment variables. "
-            "Please set it in your .env file. "
+            "VOYAGE_API_KEY not found. "
+            "Please set it in Streamlit secrets (cloud) or your .env file (local). "
             "See .env.example for instructions on how to obtain this key."
         )
     return api_key
@@ -112,19 +140,19 @@ except ValueError:
 # Gemini model to use for generating responses
 # Default: gemini-2.5-flash (fast, efficient, free tier)
 # Options: gemini-2.5-flash, gemini-2.5-pro, gemini-flash-latest
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = _get_secret("GEMINI_MODEL") or "gemini-2.5-flash"
 
 # Claude model to use for generating responses
 # Default: claude-3-5-sonnet-20241022 (most capable and balanced model)
-CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-5-sonnet-20241022")
+CLAUDE_MODEL = _get_secret("CLAUDE_MODEL") or "claude-3-5-sonnet-20241022"
 
 # Voyage embedding model to use for creating text embeddings
 # Default: voyage-3 (latest and most capable general-purpose model)
-VOYAGE_MODEL = os.getenv("VOYAGE_MODEL", "voyage-3")
+VOYAGE_MODEL = _get_secret("VOYAGE_MODEL") or "voyage-3"
 
 # LLM provider to use: "gemini" or "anthropic"
 # Default: gemini (free tier available)
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")
+LLM_PROVIDER = _get_secret("LLM_PROVIDER") or "gemini"
 
 
 # =============================================================================
@@ -133,14 +161,11 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")
 
 # Collection name for storing video transcript embeddings
 # Each collection is like a table in a database
-CHROMA_COLLECTION_NAME = os.getenv("CHROMA_COLLECTION_NAME", "youtube_transcripts")
+CHROMA_COLLECTION_NAME = _get_secret("CHROMA_COLLECTION_NAME") or "youtube_transcripts"
 
 # Directory where ChromaDB will persist its data
 # This allows embeddings to be saved and reused across sessions
-CHROMA_PERSIST_DIRECTORY = os.getenv(
-    "CHROMA_PERSIST_DIRECTORY",
-    str(PROJECT_ROOT / "data" / "chroma_db")
-)
+CHROMA_PERSIST_DIRECTORY = _get_secret("CHROMA_PERSIST_DIRECTORY") or str(PROJECT_ROOT / "data" / "chroma_db")
 
 
 # =============================================================================
@@ -149,11 +174,11 @@ CHROMA_PERSIST_DIRECTORY = os.getenv(
 
 # Chunk size for splitting transcripts (in characters)
 # Larger chunks preserve more context but are less precise for retrieval
-CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
+CHUNK_SIZE = int(_get_secret("CHUNK_SIZE") or "1000")
 
 # Overlap between consecutive chunks (in characters)
 # Overlap helps preserve context at chunk boundaries
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "200"))
+CHUNK_OVERLAP = int(_get_secret("CHUNK_OVERLAP") or "200")
 
 
 # =============================================================================
