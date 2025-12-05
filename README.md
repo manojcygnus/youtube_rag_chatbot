@@ -4,21 +4,7 @@ A powerful Retrieval-Augmented Generation (RAG) chatbot that allows you to ask q
 
 ![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.31.1-FF4B4B.svg)
-
----
-
-## 📚 Quick Navigation
-
-**👨‍🏫 For Instructors/Evaluators:**
-- **[Quick Start Guide](QUICK_START_GUIDE.md)** - Step-by-step setup for non-technical users (15 min)
-- **[Instructor Cheat Sheet](INSTRUCTOR_CHEAT_SHEET.md)** - One-page reference for running and grading
-
-**👨‍💻 For Developers:**
-- **[GitHub Setup Guide](GITHUB_SETUP.md)** - How to push this project to GitHub
-- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
-
-**📖 You're reading:** Technical documentation (below)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.40.2-FF4B4B.svg)
 
 ---
 
