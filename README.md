@@ -446,7 +446,7 @@ If you encounter issues:
 
 ## Author
 
-Created with ❤️ by [Your Name]
+Created by Manoj
 
 ---
 
